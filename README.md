@@ -11,6 +11,7 @@ For example, I don't use Scala's List, but instead show how to define it.
   - context bounds
 - All solutions terminate in values for all inputs.
 Instead of exceptions or partial functions, I use `Option` and related types where appropriate.
+- Only tail recursion is used.
 
 Non-goals:
 - Unfortunately, the solutions aren't especially readable for programmers new to Scala. 

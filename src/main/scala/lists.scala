@@ -67,7 +67,11 @@ object ListProblems {
   }
 
   /* P05 */
-  def reverse[A](lst: List[A]): List[A] = ???
+  @tailrec def reverse[A](lst: List[A], acc: List[A] = Nil): List[A] =
+    lst match {
+      case Nil    => acc
+      case h :: t => reverse(t, ::(h, acc))
+    }
 
   /* P06 */
   def isPalindrome[A:Equal](lst: List[A]): Boolean = lst === reverse(lst)
