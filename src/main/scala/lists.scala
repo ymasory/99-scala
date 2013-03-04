@@ -1,24 +1,76 @@
 package com.yuvimasory
 
+import scala.annotation.tailrec
+
+/* we're not using the standard library's List */
+import scala.{ List => _, Nil => _, :: => _ }
+import scala.collection.immutable.{ List => _, Nil => _, :: => _ }
+
 object ListProblems {
 
+  /* start list definition */
+
+  sealed trait List[+A]
+  object Nil extends List[Nothing]
+  case class ::[+A](head: A, tail: List[A]) extends List[A]
+
+  trait Equal[A] {
+    def eqs(fst: A, snd: A): Boolean
+    def neqs(fst: A, snd: A): Boolean = ! eqs(fst, snd)
+  }
+
+  implicit class EqualOps[A](value: A)(implicit e: Equal[A]) {
+    def ===(that: A) = e eqs (value, that)
+    def =/=(that: A) = e neqs (value, that)
+  }
+
+  implicit def ListEqual[A:Equal]: Equal[List[A]] = new Equal[List[A]] {
+    def eqs(fst: List[A], snd: List[A]): Boolean = (fst, snd) match {
+      case (Nil, Nil)             => true
+      case (fh :: ft, sh :: st)   => fh === sh && eqs(ft, st)
+      case _                      => false
+    }
+  }
+
+  implicit object IntEqual extends Equal[Int] {
+    def eqs(i: Int, j: Int) = i == j
+  }
+
+  /* end list definition */
+
   /* P01 */
-  def last[A](lst: List[A]): A = ???
+  @tailrec def last[A](lst: List[A]): Option[A] = lst match {
+    case Nil      => None
+    case h :: Nil => Some(h)
+    case _ :: t   => last(t)
+  }
 
   /* P02 */
-  def penultimate[A](lst: List[A]): A = ???
+  @tailrec def penultimate[A](lst: List[A]): Option[A] = lst match {
+    case Nil           => None
+    case p :: _ :: Nil => Some(p)
+    case _ :: t        => penultimate(t)
+  }
 
   /* P03 */
-  def nth[A](lst: List[A]): A = ???
+  @tailrec def nth[A](i: Int, lst: List[A]): Option[A] =
+    if (i < 0) None
+    else lst match {
+      case Nil    => None
+      case h :: t => if (i === 0) Some(h) else nth(i - 1, t)
+    }
 
   /* P04 */
-  def length[A](lst: List[A]): Int = ???
+  @tailrec def length[A](lst: List[A], acc: Int = 0): Int = lst match {
+    case Nil    => 0
+    case _ :: t => length(t, acc + 1)
+  }
 
   /* P05 */
   def reverse[A](lst: List[A]): List[A] = ???
 
   /* P06 */
-  def isPalindrome[A](lst: List[A]): Boolean = ???
+  def isPalindrome[A:Equal](lst: List[A]): Boolean = lst === reverse(lst)
 
   /* P07 */
   def flatten[A](lst: List[List[A]]): List[A] = ???
