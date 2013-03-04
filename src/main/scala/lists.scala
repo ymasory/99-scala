@@ -79,7 +79,12 @@ object ListProblems {
   def isPalindrome[A:Equal](lst: List[A]): Boolean = lst === reverse(lst)
 
   /* P07 */
-  def flatten[A](lst: List[List[A]]): List[A] = ???
+  @tailrec def flatten[A](lst: List[List[A]], acc: List[A] = Nil): List[A] =
+    lst match {
+      case Nil              => acc
+      case Nil :: xss       => flatten(xss, acc)
+      case (x :: xs) :: xss => flatten(xs :: xss, x :: acc)
+    }
 
   /* P08 */
   def compress[A](lst: List[A]): List[A] = ???
