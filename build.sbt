@@ -4,7 +4,7 @@ organization := "com.yuvimasory"
 
 version := "0.1.0-SNAPSHOT"
 
-description := "my solutions to Phil Gold's 99 Scala Problems"
+description := "purely functional solutions to Phil Gold's 99 Scala Problems"
 
 homepage := Some(url("https://github.com/ymasory/99-scala"))
 
@@ -59,11 +59,3 @@ libraryDependencies ++= Seq (
 parallelExecution in Test := true
 
 parallelExecution in Global := true
-
-/* sbt behavior */
-logLevel in compile := Level.Warn
-
-traceLevel := 5
-
-offline := false
-
