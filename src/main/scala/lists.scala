@@ -11,14 +11,10 @@ object ListProblems {
   /* definition of List  */
 
   sealed trait List[+A] {
-    def ::[A](value: A)
+    def ::[B >: A](value: B): List[B] = com.yuvimasory.ListProblems.::(value, this)
   }
-  object Nil extends List[Nothing] {
-    override def ::[A](value: A) = ::(value, Nil)
-  }
-  case class ::[+A](head: A, tail: List[A]) extends List[A] {
-    override def ::[A](value: A) = ::(value, head :: tail)
-  }
+  object Nil extends List[Nothing] 
+  case class ::[A](head: A, tail: List[A]) extends List[A]
 
   /* we need the Equal typeclass */
 
