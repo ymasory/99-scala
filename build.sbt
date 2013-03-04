@@ -50,12 +50,12 @@ scalacOptions ++= Seq(
   "-language:experimental.dynamics"
 )
 
+/* testing */
 libraryDependencies ++= Seq (
   "org.scalacheck" %% "scalacheck" % "1.10.0" % "test",
   "org.specs2" %% "specs2" % "1.13"
 )
 
-/* testing */
 parallelExecution in Test := true
 
 parallelExecution in Global := true
