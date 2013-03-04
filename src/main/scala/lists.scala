@@ -8,11 +8,19 @@ import scala.collection.immutable.{ List => _, Nil => _, :: => _ }
 
 object ListProblems {
 
-  /* start list definition */
+  /* definition of List  */
 
-  sealed trait List[+A]
-  object Nil extends List[Nothing]
-  case class ::[+A](head: A, tail: List[A]) extends List[A]
+  sealed trait List[+A] {
+    def ::[A](value: A)
+  }
+  object Nil extends List[Nothing] {
+    override def ::[A](value: A) = ::(value, Nil)
+  }
+  case class ::[+A](head: A, tail: List[A]) extends List[A] {
+    override def ::[A](value: A) = ::(value, head :: tail)
+  }
+
+  /* we need the Equal typeclass */
 
   trait Equal[A] {
     def eqs(fst: A, snd: A): Boolean
@@ -35,8 +43,6 @@ object ListProblems {
   implicit object IntEqual extends Equal[Int] {
     def eqs(i: Int, j: Int) = i == j
   }
-
-  /* end list definition */
 
   /* P01 */
   @tailrec def last[A](lst: List[A]): Option[A] = lst match {
