@@ -4,8 +4,6 @@ organization := "com.yuvimasory"
 
 version := "0.1.0-SNAPSHOT"
 
-description := "purely functional solutions to Phil Gold's 99 Scala Problems"
-
 homepage := Some(url("https://github.com/ymasory/99-scala"))
 
 startYear := Some(2013)

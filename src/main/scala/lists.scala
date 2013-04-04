@@ -1,20 +1,28 @@
-package com.yuvimasory
+package com.yuvimasory.ninetynine
 
 import scala.annotation.tailrec
 
-/* we're not using the standard library's List */
+/* hide standard library's List and Pair */
 import scala.{ List => _, Nil => _, :: => _ }
 import scala.collection.immutable.{ List => _, Nil => _, :: => _ }
+import scala.Predef.{ Pair => _ }
 
 object ListProblems {
+
+  /* utilities */
+  def TODO: Nothing = sys error "todo"
 
   /* definition of List  */
 
   sealed trait List[+A] {
-    def ::[B >: A](value: B): List[B] = com.yuvimasory.ListProblems.::(value, this)
+    def ::[B >: A](value: B): List[B] =
+      com.yuvimasory.ninetynine.ListProblems.::(value, this)
   }
-  object Nil extends List[Nothing] 
+  object Nil extends List[Nothing]
   case class ::[A](head: A, tail: List[A]) extends List[A]
+
+  /* definition of Pair */
+  case class Pair[A, B](_1: A, _2: B)
 
   /* we need the Equal typeclass */
 
@@ -29,12 +37,19 @@ object ListProblems {
   }
 
   implicit def ListEqual[A:Equal]: Equal[List[A]] = new Equal[List[A]] {
-    def eqs(fst: List[A], snd: List[A]): Boolean = (fst, snd) match {
-      case (Nil, Nil)             => true
-      case (fh :: ft, sh :: st)   => fh === sh && eqs(ft, st)
-      case _                      => false
-    }
+    override def eqs(fst: List[A], snd: List[A]): Boolean =
+      Pair(fst, snd) match {
+        case Pair(Nil, Nil)             => true
+        case Pair(fh :: ft, sh :: st)   => fh === sh && eqs(ft, st)
+        case _                          => false
+      }
   }
+
+  implicit def PairEqual[A:Equal, B:Equal]: Equal[Pair[A, B]] =
+    new Equal[Pair[A, B]] {
+      override def eqs(fst: Pair[A, B], snd: Pair[A, B]): Boolean =
+        fst._1 === snd._1 && fst._2 === snd._2
+    }
 
   implicit object IntEqual extends Equal[Int] {
     def eqs(i: Int, j: Int) = i == j
@@ -87,71 +102,71 @@ object ListProblems {
     }
 
   /* P08 */
-  def compress[A](lst: List[A]): List[A] = ???
+  def compress[A](lst: List[A]): List[A] = TODO
 
   /* P09 */
-  def pack[A](lst: List[A]): List[List[A]] = ???
+  def pack[A](lst: List[A]): List[List[A]] = TODO
 
   /* P10 */
-  def encode[A](lst: List[A]): List[(Int, A)] = ???
+  def encode[A](lst: List[A]): List[(Int, A)] = TODO
 
   /* P11 */
-  def encodeModified[A](lst: List[A]): List[Any] = ???
+  def encodeModified[A](lst: List[A]): List[Any] = TODO
 
   /* P12 */
-  def decode[A](lst: List[(Int, A)]): List[A] = ???
+  def decode[A](lst: List[(Int, A)]): List[A] = TODO
 
   /* P13 */
-  def encodeDirect[A](lst: List[A]): List[(Int, A)] = ???
+  def encodeDirect[A](lst: List[A]): List[(Int, A)] = TODO
 
   /* P14 */
-  def duplicate[A](lst: List[A]): List[A] = ???
+  def duplicate[A](lst: List[A]): List[A] = TODO
 
   /* P15 */
-  def duplicateN[A](i: Int, lst: List[A]): List[A] = ???
+  def duplicateN[A](i: Int, lst: List[A]): List[A] = TODO
 
   /* P16 */
-  def drop[A](i: Int, lst: List[A]): List[A] = ???
+  def drop[A](i: Int, lst: List[A]): List[A] = TODO
 
   /* P17 */
-  def split[A](i: Int, lst: List[A]): (List[A], List[A]) = ???
+  def split[A](i: Int, lst: List[A]): (List[A], List[A]) = TODO
 
   /* P18 */
-  def slice[A](i: Int, j: Int, lst: List[A]): List[A] = ???
+  def slice[A](i: Int, j: Int, lst: List[A]): List[A] = TODO
 
   /* P19 */
-  def rotate[A](i: Int, lst: List[A]): List[A] = ???
+  def rotate[A](i: Int, lst: List[A]): List[A] = TODO
 
   /* P20 */
-  def removeAt[A](i: Int, lst: List[A]): List[A] = ???
+  def removeAt[A](i: Int, lst: List[A]): List[A] = TODO
 
   /* P21 */
-  def insertAt[A](value: A, i: Int, lst: List[A]): List[A] = ???
+  def insertAt[A](value: A, i: Int, lst: List[A]): List[A] = TODO
 
   /* P22 */
-  def range[A](i: Int, j: Int): List[Int] = ???
+  def range[A](i: Int, j: Int): List[Int] = TODO
 
   /* P23 */
-  def randomSelect[A](i: Int, lst: List[A]): List[A] = ???
+  def randomSelect[A](i: Int, lst: List[A]): List[A] = TODO
 
   /* P24 */
-  def lotto[A](i: Int, j: Int): List[Int] = ???
+  def lotto[A](i: Int, j: Int): List[Int] = TODO
 
   /* P25 */
-  def randomPermute[A](lst: List[A]): List[A] = ???
+  def randomPermute[A](lst: List[A]): List[A] = TODO
 
   /* P26 */
-  def combinations[A](i: Int, lst: List[A]): List[List[A]] = ???
+  def combinations[A](i: Int, lst: List[A]): List[List[A]] = TODO
 
   /* P27a */
-  def group3[A](lst: List[Int]): List[List[List[A]]] = ???
+  def group3[A](lst: List[Int]): List[List[List[A]]] = TODO
 
   /* P27b */
-  def group[A](lens: List[Int], lst: List[A]): List[List[List[A]]] = ???
+  def group[A](lens: List[Int], lst: List[A]): List[List[List[A]]] = TODO
 
   /* P28a */
-  def lsort[A](lst: List[List[A]]): List[List[A]] = ???
+  def lsort[A](lst: List[List[A]]): List[List[A]] = TODO
 
   /* P28b */
-  def lsortFreq[A](lst: List[List[A]]): List[List[A]] = ???
+  def lsortFreq[A](lst: List[List[A]]): List[List[A]] = TODO
 }
